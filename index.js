@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,7 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import bodyParser from "body-parser";
+import { register } from "./controllers/auth.js";
 
 /*  CONFIGURATIONS  */
 
@@ -37,7 +38,11 @@ const storage = multer.diskStorage({
 
 });
 
-const upload = multer({ storage })
+const upload = multer({ storage });
+
+/* Authentication---> ROUTES WITH FILES */
+
+app.post("/auth/register", upload.single("picture"), register);
 
 
 /*   MONGOOSE SETUP  */
